@@ -4,15 +4,16 @@ import pandas as pd
 import os
 
 # This should be an input
-TIC_list = [267802440]
-TESS_sector_list = [17]
+args = func.get_arguments()
+TIC_list = np.array([args.tic])
+TESS_sector_list = np.array([args.sector])
 
 period_data = pd.DataFrame(columns=['TIC','TESS_sector','Period','error','FAP'])
 # LC download and draw loop:
 for i in range(len(TIC_list)):
     # The lightcurve file will be stored in a cache. 
-    tic = TIC_list[i] 
-    TESS_sector = TESS_sector_list[i]
+    tic = int(TIC_list[i])
+    TESS_sector = int(TESS_sector_list[i])
     lc = func.get_lc(tic,TESS_sector)
     # Get periodogram
     periodogram, Pbeg, Pend = func.get_periodogram(lc)
