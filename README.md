@@ -1,9 +1,9 @@
 # TESS_diagnosis
 
 ## Aims
-Find Target Pixel Files and Lightcurves from TESS given a TIC list. 
+Find Target Pixel Files and Lightcurves from TESS given a TIC number. 
 Implement GLS to find rotational periods.
-Output a PDF summary with obtained period and 4 figures:
+Output a PDF summary with the obtained period and 4 figures:
   1. TPF with TESS apperture mask
   2. Lightcurve
   3. Periodogram
@@ -15,3 +15,9 @@ M. Zechmeister & M. Kürster, The generalised Lomb-Scargle periodogram. A new fo
 
 ## Requirements
 **TESS_diagnosis** is written in Python3.7 and uses the **lightkurve** package (https://docs.lightkurve.org/index.html). 
+
+## How to use 
+Clone or download this folder and simply write: 
+'python TESS_diagnosis_main.py 267802440 17'
+
+
