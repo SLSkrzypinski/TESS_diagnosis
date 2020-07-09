@@ -8,8 +8,8 @@ Output a PDF summary with the obtained period and 4 figures:
   2. Lightcurve
   3. Periodogram
   4. Folded LC
-The TPF file is created using the Python3 version of the **tpf plotter** script by @jlillo (https://github.com/jlillo/tpfplotter).
-Periods are calculated using the Generalised Lomb-Scargle periodogram by @mzechmeister (https://github.com/mzechmeister/GLS) based on:
+The TPF file is created using the Python3 version of the **tpf plotter** script by J. Lillo (https://github.com/jlillo/tpfplotter).
+Periods are calculated using the Generalised Lomb-Scargle periodogram by M. Zechmeister (https://github.com/mzechmeister/GLS), which is based on:
 
 M. Zechmeister & M. Kürster, The generalised Lomb-Scargle periodogram. A new formalism for the floating-mean and Keplerian periodograms, 2009, [A&A, 496, 577](https://ui.adsabs.harvard.edu/abs/2009A%26A...496..577Z/abstract)
 
