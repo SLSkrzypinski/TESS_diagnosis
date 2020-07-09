@@ -19,8 +19,8 @@ M. Zechmeister & M. Kürster, The generalised Lomb-Scargle periodogram. A new fo
 ## How to use 
 Clone or download this folder and simply write: 
 
-'''
+```
 python TESS_diagnosis_main.py 267802440 17
-'''
+```
 
 
