@@ -20,10 +20,7 @@ M. Zechmeister & M. Kürster, The generalised Lomb-Scargle periodogram. A new fo
 Clone or download this folder and use the command line: 
 
 ```
-python TESS_diagnosis_main.py TIC SECTOR
+python TESS_diagnosis_main.py 267802440 17
 ```
-
-Where TIC is the target TIC number and SECTOR its corresponding sector.
-
 ![alt text](https://github.com/SLSkrzypinski/TESS_diagnosis/blob/master/TIC_267802440_S_17_summary.png)
 
