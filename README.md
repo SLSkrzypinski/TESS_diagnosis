@@ -25,5 +25,5 @@ python TESS_diagnosis_main.py TIC SECTOR
 
 Where TIC is the target TIC number and SECTOR its corresponding sector.
 
-
+![alt text](https://github.com/SLSkrzypinski/TESS_diagnosis/blob/master/TIC_267802440_S_17_summary.pdf)
 
