@@ -49,8 +49,8 @@ We will add an option to download and combine multiple sector light curves for t
 
 If you use **TESS_diagnosis**, please give credit to the authors of **tpfplotter** and **GLS** and their papers:
 
-Aller, A., Lillo-Box, J., Jones, D., et al. (2020, A&A, 635, 128) "Planetary nebulae seen with TESS: Discovery of new binary central star candidates from Cycle 1," [ADS ling](https://ui.adsabs.harvard.edu/abs/2020A%26A...635A.128A/abstract)
+-Aller, A., Lillo-Box, J., Jones, D., et al. (2020, A&A, 635, 128) "Planetary nebulae seen with TESS: Discovery of new binary central star candidates from Cycle 1," [ADS ling](https://ui.adsabs.harvard.edu/abs/2020A%26A...635A.128A/abstract)
 
-M. Zechmeister & M. Kürster, The generalised Lomb-Scargle periodogram. A new formalism for the floating-mean and Keplerian periodograms, 2009, [ADS link](https://ui.adsabs.harvard.edu/abs/2009A%26A...496..577Z/abstract)
+-M. Zechmeister & M. Kürster, The generalised Lomb-Scargle periodogram. A new formalism for the floating-mean and Keplerian periodograms, 2009, [ADS link](https://ui.adsabs.harvard.edu/abs/2009A%26A...496..577Z/abstract)
 
 Go to the original authors' repositories linked above for further details. 
