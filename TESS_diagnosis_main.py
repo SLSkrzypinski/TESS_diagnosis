@@ -2,8 +2,11 @@
 import functions as func
 import pandas as pd
 import os
-
+import numpy as np
 # This should be an input
+TIC_list = [267802440]
+TESS_sector_list = [17]
+
 args = func.get_arguments()
 TIC_list = np.array([args.tic])
 TESS_sector_list = np.array([args.sector])
@@ -18,8 +21,8 @@ for i in range(len(TIC_list)):
     # Get periodogram
     periodogram, Pbeg, Pend = func.get_periodogram(lc)
     best_period, period_error, fap = func.draw_periodogram(periodogram,tic,TESS_sector,Pbeg=Pbeg,Pend=Pend)
-    data = {'TIC':tic, 'sector':TESS_sector, 'Period':best_period,'error':period_error,'FAP':fap}
-    period_data.append(data,ignore_index=True)
+    data = {'TIC':int(tic), 'TESS_sector':int(TESS_sector), 'Period':best_period,'error':period_error,'FAP':fap}
+    period_data = period_data.append(data,ignore_index=True)
     # Fold lightcurve               
     func.fold_lc(lc,best_period,tic,TESS_sector)
     # Get TPF using Lillo's script

@@ -1,14 +1,14 @@
 import lightkurve as lk
 import matplotlib.pyplot as plt
 from matplotlib.figure import figaspect
-import GLS as GLS
+import GLS
 
 
 def get_arguments():
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('tic',help='TIC number')
-    parser.add_argument('sector',help='TESS source sector',default=None) 
+    parser.add_argument('tic',help='TIC number',action='store',type=str)
+    parser.add_argument('sector',help='TESS source sector',action='store',type=str) 
 
     args = parser.parse_args()
     return args
