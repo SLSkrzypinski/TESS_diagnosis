@@ -14,6 +14,7 @@ def get_arguments():
     return args
 
 def get_lc(tic,TESS_sector):
+    print('Downloading and plotting light curve')
     lc_file = lk.search_lightcurvefile('TIC {0}'.format(tic),mission = 'TESS',sector = TESS_sector).download()
     lc = lc_file.PDCSAP_FLUX.remove_nans()
     flux = lc.flux
@@ -30,6 +31,7 @@ def get_lc(tic,TESS_sector):
 
 def get_periodogram(lc):
     # Get periodogram
+    print('Creating GLS periodogram')
     lc_period = lc.remove_outliers()
     time = list(lc_period.time)
     flux = list(lc_period.flux)
@@ -40,6 +42,7 @@ def get_periodogram(lc):
     return periodogram, Pbeg, Pend
   
 def draw_periodogram(periodogram,tic,TESS_sector,Pbeg=None,Pend=None):
+    print('Plotting periodogram')
     best_period = periodogram.best['P']
     period_error = periodogram.best['e_P']
     fap = periodogram.FAP()
@@ -67,6 +70,7 @@ def draw_periodogram(periodogram,tic,TESS_sector,Pbeg=None,Pend=None):
     return best_period,period_error,fap
   
 def fold_lc(lc,best_period,tic,TESS_sector):
+    print('Plotting phased LC')
     # Fold lightcurve               
     lc_folded = lc.fold(period=best_period)
     flux = lc_folded.flux
@@ -94,6 +98,7 @@ def fold_lc(lc,best_period,tic,TESS_sector):
   
                       
 def summary_pdf(tic,TESS_sector,best_period,period_error,fap):
+    print('Creating diagnosis pdf')
     from fpdf import FPDF
     pdf = FPDF('L','mm','A4')
     pdf.set_font('Arial','B',16)
