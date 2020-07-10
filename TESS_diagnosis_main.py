@@ -3,9 +3,6 @@ import functions as func
 import pandas as pd
 import os
 import numpy as np
-# This should be an input
-TIC_list = [267802440]
-TESS_sector_list = [17]
 
 args = func.get_arguments()
 TIC_list = np.array([args.tic])
