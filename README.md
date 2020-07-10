@@ -34,7 +34,7 @@ The output pdf looks like this:
 
 ![alt text](https://github.com/SLSkrzypinski/TESS_diagnosis/blob/master/TIC_267802440_S_17_summary.png)
 
-Additionally, a csv is created specifying the period, its error and its FAP. 
+Additionally, a csv file is created specifying the period, its error and its FAP. 
 
 ## Future additions
 
