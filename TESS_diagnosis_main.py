@@ -17,6 +17,8 @@ for i in range(len(TIC_list)):
     # The lightcurve file will be stored in a cache. 
     tic = int(TIC_list[i])
     TESS_sector = int(TESS_sector_list[i])
+    print('Working on TIC {0}, sector {1}'.format(tic,TESS_sector))
+    # Get light curve
     lc = func.get_lc(tic,TESS_sector)
     # Get periodogram
     periodogram, Pbeg, Pend = func.get_periodogram(lc)
@@ -29,7 +31,7 @@ for i in range(len(TIC_list)):
     os.system('python tpfplotter_py3.py {0} --sector {1} --maglim 6'.format(tic,TESS_sector))
     # Create summary pdf file
     func.summary_pdf(tic,TESS_sector,best_period,period_error,fap)
-             
+   
     os.remove('TIC_{0}_S_{1}_lc.png'.format(tic,TESS_sector))
     os.remove('TIC_{0}_S_{1}_periodogram.png'.format(tic,TESS_sector))
     os.remove('TIC_{0}_S_{1}_lcfolded.png'.format(tic,TESS_sector))
