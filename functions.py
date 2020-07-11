@@ -98,14 +98,13 @@ def fold_lc(lc,best_period,tic,TESS_sector):
   
                       
 def summary_pdf(tic,TESS_sector,best_period,period_error,fap):
-    print('Creating diagnosis pdf')
     from fpdf import FPDF
     pdf = FPDF('L','mm','A4')
     pdf.set_font('Arial','B',16)
     pdf.set_text_color(125,125,125)
     pdf.add_page()
-    pdf.cell(w=300,txt='TIC {0} sector {1}  P = {2}+/-{3} with FAP = {4}'.format(tic,
-         TESS_sector,round(best_period,4),round(period_error,4),round(fap,4)))
+    pdf.cell(w=300,txt='TIC {0} sector {1} P_rot = ({2}'.format(tic,
+             TESS_sector,round(best_period,4))+u'\u00b1'+'{0})d with FAP = {1}'.format(round(period_error,4),round(fap,4)))
     pdf.image('TIC_{0}_S_{1}_tpf.png'.format(tic,TESS_sector),w=100,h=85,x=20,y=20)
     pdf.image('TIC_{0}_S_{1}_lc.png'.format(tic,TESS_sector),w=165,h=85,x=120,y=20)
     pdf.image('TIC_{0}_S_{1}_periodogram.png'.format(tic,TESS_sector),w=110,h=85,x=20,y=110)
