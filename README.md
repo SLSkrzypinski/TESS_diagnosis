@@ -25,7 +25,9 @@ The periodogram plot contains three lines corresponding to False Alarm Probabili
 **TESS_diagnosis** is written in Python3.7 and uses the **lightkurve** package (https://docs.lightkurve.org/index.html). 
 
 ## How to use 
-Clone or download this folder and use the command line: 
+Clone or download this folder. 
+
+As an example, FF And has the TIC number 26780244, which is in the 17th TESS sector. To generate the diagnosis pdf, we simply use the command line:
 
 ```
 python TESS_diagnosis_main.py 267802440 17
