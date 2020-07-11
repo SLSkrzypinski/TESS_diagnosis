@@ -1,19 +1,18 @@
 # TESS_diagnosis
 
 ## Aims
-Find Target Pixel Files (TPF) and Lightcurves from TESS given a TIC number and a TESS sector. 
-Implement GLS to find rotational periods.
-Output a PDF summary with the obtained period and 4 figures:
-  1. TPF with TESS apperture mask
-  2. Light curve 
-  3. Periodogram
-  4. Folded LC
+Generate Target Pixel Files (TPF) and find PDCSAP light curves from 
+TESS given a TIC number and a TESS sector. Implement GLS periodogram 
+to find stellar rotational period. Output a one-page PDF summary with 
+the obtained period and four figures:
+1. TPF with TESS aperture mask
+2. TESS light curve
+3. Periodogram
+4. Folded light curve
   
 ## Details
 
 The TPF is created making use of the Python3 version of **tpf plotter** by J. Lillo-Box (publicly available in https://github.com/jlillo/tpfplotter), which also made use of the Python packages **astropy**, **lightkurve** and **numpy**.
-
-The light curve is generated using the PDCSAP flux available. 
 
 Periods are calculated using the **Generalised Lomb-Scargle** periodogram by M. Zechmeister (publicly available in https://github.com/mzechmeister/GLS).
 
@@ -38,6 +37,23 @@ The output pdf looks like this:
 
 Additionally, a csv file is created specifying the period, its error and its FAP. 
 
+## Credits
+
+If you use **TESS_diagnosis**, please cite:
+
+- Skrzypinski, S. L, MSc thesis, Universidad Complutense de Madrid, 
+Spain, in prep.
+
+- Revilla, D., Universidad Complutense de Madrid, Spain, 2020.
+
+Besides you may also give credit to the authors of **tpfplotter** and **GLS** 
+and their papers:
+
+- Aller, A., Lillo-Box, J., Jones, D., et al. (2020, A&A, 635, 128) "Planetary nebulae seen with TESS: Discovery of new binary central star candidates from Cycle 1," [ADS ling](https://ui.adsabs.harvard.edu/abs/2020A%26A...635A.128A/abstract)
+
+- M. Zechmeister & M. Kürster, The generalised Lomb-Scargle periodogram. A new formalism for the floating-mean and Keplerian periodograms, 2009, [ADS link](https://ui.adsabs.harvard.edu/abs/2009A%26A...496..577Z/abstract)
+
+
 
 ## Future additions
 
@@ -47,12 +63,4 @@ An option will be added so the user would be able to input a TIC and sector list
 
 We will add an option to download and combine multiple sector light curves for the same star. This way, the user would be able to find periods greater than 13.5 days.
 
-## Credits
 
-If you use **TESS_diagnosis**, please give credit to the authors of **tpfplotter** and **GLS** and their papers:
-
-- Aller, A., Lillo-Box, J., Jones, D., et al. (2020, A&A, 635, 128) "Planetary nebulae seen with TESS: Discovery of new binary central star candidates from Cycle 1," [ADS ling](https://ui.adsabs.harvard.edu/abs/2020A%26A...635A.128A/abstract)
-
-- M. Zechmeister & M. Kürster, The generalised Lomb-Scargle periodogram. A new formalism for the floating-mean and Keplerian periodograms, 2009, [ADS link](https://ui.adsabs.harvard.edu/abs/2009A%26A...496..577Z/abstract)
-
-Go to the original authors' repositories linked above for further details. 
