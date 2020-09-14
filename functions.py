@@ -32,7 +32,7 @@ def get_lc(tic,TESS_sector):
 def get_periodogram(lc):
     # Get periodogram
     print('Creating GLS periodogram')
-    lc_period = lc.remove_outliers()
+    lc_period = lc.remove_outliers(sigma=5.0)
     time = list(lc_period.time)
     flux = list(lc_period.flux)
     error = list(lc_period.flux_err)
