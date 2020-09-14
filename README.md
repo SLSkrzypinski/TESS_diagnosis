@@ -57,7 +57,7 @@ and their papers:
 
 ## Future additions
 
-Future releases will add the option to specify the flux fraction which corresponds to the target source making use of the --SAVEGAIA opion built in the **tpfplotter** script. 
+Future releases will add the option to specify the flux fraction which corresponds to the target source making use of the --SAVEGAIA option built in the **tpfplotter** script. 
 
 An option will be added so the user would be able to input a TIC and sector list with all the sources desired. 
 
