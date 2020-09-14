@@ -65,6 +65,6 @@ We will add an option to download and combine multiple sector light curves for t
 
 ## Known issues
 
-For some reason, tpfplotter_py3.py does not work correctly with python 3.8. 
+- For some reason, tpfplotter_py3.py does not work correctly with python 3.8. 
 
 
