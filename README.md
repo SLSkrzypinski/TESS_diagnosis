@@ -14,7 +14,7 @@ the obtained period and four figures:
 
 The TPF is created making use of the Python3 version of **tpf plotter** by J. Lillo-Box (publicly available in https://github.com/jlillo/tpfplotter), which also made use of the Python packages **astropy**, **lightkurve** and **numpy**.
 
-Periods are calculated using the **Generalised Lomb-Scargle** periodogram by M. Zechmeister (publicly available in https://github.com/mzechmeister/GLS).
+Periods are calculated using the **Generalised Lomb-Scargle** periodogram by M. Zechmeister (publicly available in https://github.com/mzechmeister/GLS). For this, photometric points which deviate more than 5&sigma
 
 As TESS targets are observed at a 2 minute cadence and each sector is observed for 27 days, the periodogram will look for periods between 4 minutes and 13.5 days. 
 
@@ -62,5 +62,9 @@ Future releases will add the option to specify the flux fraction which correspon
 An option will be added so the user would be able to input a TIC and sector list with all the sources desired. 
 
 We will add an option to download and combine multiple sector light curves for the same star. This way, the user would be able to find periods greater than 13.5 days.
+
+## Known issues
+
+For some reason, tpfplotter_py3.py does not work correctly with python 3.8. 
 
 
