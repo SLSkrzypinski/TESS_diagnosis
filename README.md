@@ -14,7 +14,7 @@ the obtained period and four figures:
 
 The TPF is created making use of the Python3 version of **tpf plotter** by J. Lillo-Box (publicly available in https://github.com/jlillo/tpfplotter), which also made use of the Python packages **astropy**, **lightkurve** and **numpy**.
 
-Periods are calculated using the **Generalised Lomb-Scargle** periodogram by M. Zechmeister (publicly available in https://github.com/mzechmeister/GLS). For this, photometric points which deviate more than 5<img src="https://render.githubusercontent.com/render/math?math=sigma"> from the mean flux are removed, so flares, transits or eclipses do not affect the calculated rotational period. 
+Periods are calculated using the **Generalised Lomb-Scargle** periodogram by M. Zechmeister (publicly available in https://github.com/mzechmeister/GLS). For this, photometric points which deviate more than 5<img src="https://render.githubusercontent.com/render/math?math=\sigma"> from the mean flux are removed, so flares, transits or eclipses do not affect the calculated rotational period. 
 
 As TESS targets are observed at a 2 minute cadence and each sector is observed for 27 days, the periodogram will look for periods between 4 minutes and 13.5 days. 
 
