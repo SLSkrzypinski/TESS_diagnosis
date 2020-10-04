@@ -26,10 +26,14 @@ for i in range(len(TIC_list)):
     func.fold_lc(lc,best_period,tic,TESS_sector)
     # Get TPF using Lillo's script
     print('Working on TPF')
-    SAVE = '--SAVEGAIA' if args.GfluxFrac else ''
+    SAVE = '--SAVEGAIA' if args.FGratio else ''
     os.system('python3 tpfplotter_py3.py {0} --sector {1} --maglim 6 {2}'.format(tic,TESS_sector,SAVE))
     # Create summary pdf file
-    func.summary_pdf(tic,TESS_sector,best_period,period_error,fap)
+    if args.FGratio:
+        GFrat = func.get_poll(tic)
+        func.summary_pdf(tic,TESS_sector,best_period,period_error,fap,GFrat)
+    else:
+        func.summary_pdf(tic,TESS_sector,best_period,period_error,fap)
    
     os.remove('TIC_{0}_S_{1}_lc.png'.format(tic,TESS_sector))
     os.remove('TIC_{0}_S_{1}_periodogram.png'.format(tic,TESS_sector))
