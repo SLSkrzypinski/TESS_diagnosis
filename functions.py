@@ -103,7 +103,18 @@ def fold_lc(lc,best_period,tic,TESS_sector):
     plt.savefig('TIC_{0}_S_{1}_lcfolded.png'.format(tic,TESS_sector))
     plt.close()
   
-                      
+def get_poll(tic):
+    import pandas as pd
+    table = pd.read_table('Gaia_TIC{0}.dat'.format(tic),sep=' ')
+    Gmag_principal = data_table.Gmag[0]
+    mag = []
+    for i in range(1,len(data_table)):
+        if data_table.InAper[i] == 1:
+            mag.append(data_table.Gmag[i])
+    flux = [10**((Gmag_principal-m)/2.5) for m in mag]
+    flux_fraction = 1/(sum(flux)+1)
+    return flux_fraction
+
 def summary_pdf(tic,TESS_sector,best_period,period_error,fap):
     from fpdf import FPDF
     pdf = FPDF('L','mm','A4')
