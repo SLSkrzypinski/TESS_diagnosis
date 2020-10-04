@@ -20,6 +20,8 @@ As TESS targets are observed at a 2 minute cadence and each sector is observed f
 
 The periodogram plot contains three lines corresponding to False Alarm Probabilities (FAP) of 10%, 1% and 0.1%. 
 
+The phase folded light curve plot
+
 ## Requirements
 **TESS_diagnosis** is written in Python3.7 and uses the **lightkurve** package (https://docs.lightkurve.org/index.html). 
 
@@ -57,11 +59,9 @@ and their papers:
 
 ## Future additions
 
-Future releases will add the option to specify the flux fraction which corresponds to the target source making use of the --SAVEGAIA option built in the **tpfplotter** script. 
+An option will be added so the user would be able to input a TIC and sector list file with all the sources desired. 
 
-An option will be added so the user would be able to input a TIC and sector list with all the sources desired. 
-
-We will add an option to download and combine multiple sector light curves for the same star. This way, the user would be able to find periods greater than 13.5 days.
+We will add an option to download and combine multiple sector light curves for the same star. This way, the user would be able to find periods greater than 13.5 days. 
 
 ## Known issues
 
