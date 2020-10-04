@@ -72,9 +72,11 @@ def draw_periodogram(periodogram,tic,TESS_sector,Pbeg=None,Pend=None):
 def fold_lc(lc,best_period,tic,TESS_sector):
     print('Plotting phased LC')
     # Fold lightcurve               
-    lc_folded = lc.fold(period=best_period)
+    lc_folded = lc.fold(period=best_period).remove_outliers(sigma = 10)
     flux = lc_folded.flux
     phase = lc_folded.phase
+    folded_5sig = lc_folded.remove_outliers(sigma = 5)
+    sig5_lim = (max(folded_5sig.flux),min(folded_5sig.flux))
     w, h = figaspect(1/2)
     fig = plt.figure(figsize=(w,h))
     ax = fig.add_subplot(111)
@@ -83,6 +85,7 @@ def fold_lc(lc,best_period,tic,TESS_sector):
     #ax.set_ylabel('Normalized Flux',fontsize=14)
     plt.scatter(phase,flux,s=2,c='red')
     ax.set_xlim(-1,1)
+    ax.set_ylim(bottom=min(flux),top=max(flux))
     len_phase = len(phase)
     lim = int(len_phase/2)
     phase1 = phase[0:lim]
@@ -93,6 +96,10 @@ def fold_lc(lc,best_period,tic,TESS_sector):
     flux2 = flux[lim:]
     plt.scatter(phase2_shift,flux2,s=2,c='lightgrey')
     plt.scatter(phase1_shift,flux1,s=2,c='lightgrey')
+    phase_shift = phase2_shift+phase1_shift
+    for i in range(2):
+        plt.plot(phase_shift,[sig5_lim[i]]*len(phase_shift),linewidth=.85,linestyle='dashed',color = 'lightgrey')
+        plt.plot(phase,[sig5_lim[i]]*len(phase),linewidth=.85,linestyle='dashed',color='darkblue')
     plt.savefig('TIC_{0}_S_{1}_lcfolded.png'.format(tic,TESS_sector))
     plt.close()
   
