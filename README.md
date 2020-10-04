@@ -20,7 +20,7 @@ As TESS targets are observed at a 2 minute cadence and each sector is observed f
 
 The periodogram plot contains three lines corresponding to False Alarm Probabilities (FAP) of 10%, 1% and 0.1%. 
 
-The phase folded light curve plot
+The phase folded light curve plot is limited to points that deviate less than 10<img src="https://render.githubusercontent.com/render/math?math=\sigma"> from the mean flux. Two dashed lines show the 5<img src="https://render.githubusercontent.com/render/math?math=\sigma"> limit for the GLS. This is done to better show the star's variability.
 
 ## Requirements
 **TESS_diagnosis** is written in Python3.7 and uses the **lightkurve** package (https://docs.lightkurve.org/index.html). 
