@@ -9,7 +9,7 @@ def get_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument('tic',help='TIC number',action='store',type=str)
     parser.add_argument('sector',help='TESS source sector',action='store',type=str) 
-    parser.add_argument('--GFluxFrac',help='Save Gaia sources and get main source Gflux fraction', action='store')
+    parser.add_argument('--FGratio',help='Save Gaia sources and get main source Gflux fraction', action='store')
 
     args = parser.parse_args()
     return args
