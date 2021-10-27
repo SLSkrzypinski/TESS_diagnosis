@@ -123,7 +123,12 @@ def summary_pdf(tic,TESS_sector,best_period,period_error,fap,Gflux=None):
     pdf.set_text_color(125,125,125)
     pdf.add_page()
     Gflux_frac = ' FG_ratio = {0}'.format(Gflux) if Gflux else ''
-    pdf.cell(w=300,txt='TIC {0} sector {1} P_rot = ({2}'.format(tic,
+    if round(fap,4) == 0.0:
+        pdf.cell(w=300,txt='TIC {0} sector {1} P_rot = ({2}'.format(tic,
+             TESS_sector,round(best_period,4))+u'\u00b1'+'{0})d with FAP < 0.0001 {1}'.format(round(period_error,4),
+             Gflux_frac))
+    else:                                                                                   
+        pdf.cell(w=300,txt='TIC {0} sector {1} P_rot = ({2}'.format(tic,
              TESS_sector,round(best_period,4))+u'\u00b1'+'{0})d with FAP = {1}'.format(round(period_error,4),
              round(fap,4))+Gflux_frac)
     pdf.image('TIC_{0}_S_{1}_tpf.png'.format(tic,TESS_sector),w=100,h=85,x=20,y=20)
