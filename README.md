@@ -44,9 +44,9 @@ Additionally, a csv file is created specifying the period, its error and its FAP
 If you use **TESS_diagnosis**, please cite:
 
 - Skrzypinski, S. L, MSc thesis, Universidad Complutense de Madrid, 
-Spain, in prep.
+Spain, 2021.
 
-- Revilla, D., Universidad Complutense de Madrid, Spain, 2020.
+- Revilla, D., MSc thesis, Universidad Complutense de Madrid, Spain, 2020.
 
 Besides you may also give credit to the authors of **tpfplotter** and **GLS** 
 and their papers:
