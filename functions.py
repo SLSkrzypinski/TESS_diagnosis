@@ -18,8 +18,8 @@ def get_lc(tic,TESS_sector):
     print('Downloading and plotting light curve')
     lc_file = lk.search_lightcurvefile('TIC {0}'.format(tic),mission = 'TESS',sector = TESS_sector).download()
     lc = lc_file.PDCSAP_FLUX.remove_nans()
-    flux = lc.flux
-    time = lc.time
+    flux = lc.flux.value
+    time = lc.time.value
     w, h = figaspect(1/2)
     fig = plt.figure(figsize=(w,h))
     ax = fig.add_subplot(111)
@@ -34,9 +34,9 @@ def get_periodogram(lc):
     # Get periodogram
     print('Creating GLS periodogram')
     lc_period = lc.remove_outliers(sigma=5.0)
-    time = list(lc_period.time)
-    flux = list(lc_period.flux)
-    error = list(lc_period.flux_err)
+    time = list(lc_period.time.value)
+    flux = list(lc_period.flux.value)
+    error = list(lc_period.flux_err.value)
     Pbeg = 2*(time[1]-time[0])
     Pend = (max(time)-min(time))/2
     periodogram = GLS.Gls((time,flux,error),Pbeg=Pbeg,Pend=Pend)
@@ -74,10 +74,10 @@ def fold_lc(lc,best_period,tic,TESS_sector):
     print('Plotting phased LC')
     # Fold lightcurve               
     lc_folded = lc.fold(period=best_period).remove_outliers(sigma = 10)
-    flux = lc_folded.flux
-    phase = lc_folded.phase
+    flux = lc_folded.flux.value
+    phase = lc_folded.phase.value
     folded_5sig = lc_folded.remove_outliers(sigma = 5)
-    sig5_lim = (max(folded_5sig.flux),min(folded_5sig.flux))
+    sig5_lim = (max(folded_5sig.flux.value),min(folded_5sig.flux.value))
     w, h = figaspect(1/2)
     fig = plt.figure(figsize=(w,h))
     ax = fig.add_subplot(111)
@@ -106,7 +106,7 @@ def fold_lc(lc,best_period,tic,TESS_sector):
   
 def get_poll(tic):
     import pandas as pd
-    table = pd.read_table('Gaia_TIC{0}.dat'.format(tic),sep=' ')
+    data_table = pd.read_table('Gaia_TIC{0}.dat'.format(tic),sep=' ')
     Gmag_principal = data_table.Gmag[0]
     mag = []
     for i in range(1,len(data_table)):
@@ -122,10 +122,10 @@ def summary_pdf(tic,TESS_sector,best_period,period_error,fap,Gflux=None):
     pdf.set_font('Arial','B',16)
     pdf.set_text_color(125,125,125)
     pdf.add_page()
-    Gflux_frac = ' FG_ratio = '.format(Gflux) if Gflux else ''
+    Gflux_frac = ' FG_ratio = {0}'.format(Gflux) if Gflux else ''
     pdf.cell(w=300,txt='TIC {0} sector {1} P_rot = ({2}'.format(tic,
              TESS_sector,round(best_period,4))+u'\u00b1'+'{0})d with FAP = {1}'.format(round(period_error,4),
-             round(fap,4))+GFlux_frac)
+             round(fap,4))+Gflux_frac)
     pdf.image('TIC_{0}_S_{1}_tpf.png'.format(tic,TESS_sector),w=100,h=85,x=20,y=20)
     pdf.image('TIC_{0}_S_{1}_lc.png'.format(tic,TESS_sector),w=165,h=85,x=120,y=20)
     pdf.image('TIC_{0}_S_{1}_periodogram.png'.format(tic,TESS_sector),w=110,h=85,x=20,y=110)
