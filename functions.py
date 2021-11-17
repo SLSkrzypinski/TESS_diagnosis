@@ -72,14 +72,16 @@ def draw_periodogram(periodogram,tic,TESS_sector,Pbeg=None,Pend=None):
   
 def fold_lc(lc,best_period,tic,TESS_sector):
     print('Plotting phased LC')
-    # Fold lightcurve               
-    lc_folded = lc.fold(period=best_period).remove_outliers(sigma = 10)
+    # Fold lightcurve  
+    lc_clean = lc.remove_outliers(sigma=10)
+    lc_folded = lc_clean.fold(period=best_period,normalize_phase=True)#.remove_outliers(sigma = 10)
     flux = lc_folded.flux.value
-    phase = lc_folded.phase.value
-    folded_5sig = lc_folded.remove_outliers(sigma = 5)
+    phase = lc_folded.phase.value#/(max(lc_folded.phase.value)-min(lc_folded.phase.value))
+    lc_5sig = lc.remove_outliers(sigma=5)
+    folded_5sig = lc_5sig.fold(period=best_period,normalize_phase=True)
     sig5_lim = (max(folded_5sig.flux.value),min(folded_5sig.flux.value))
     w, h = figaspect(1/2)
-    fig = plt.figure(figsize=(w,h))
+    fig = plt.figure(figsize=(w,h),dpi=75,facecolor='#2B475D')
     ax = fig.add_subplot(111)
     ax.set_xlabel('Phase',fontsize=14)
     ax.set_ylabel('Flux [$\mathrm{e^{-}\,s^{-1}}$]',fontsize=14)
@@ -102,6 +104,7 @@ def fold_lc(lc,best_period,tic,TESS_sector):
         plt.plot(phase_shift,[sig5_lim[i]]*len(phase_shift),linewidth=.85,linestyle='dashed',color = 'lightgrey')
         plt.plot(phase,[sig5_lim[i]]*len(phase),linewidth=.85,linestyle='dashed',color='darkblue')
     plt.savefig('TIC_{0}_S_{1}_lcfolded.png'.format(tic,TESS_sector))
+    fig.tight_layout()
     plt.close()
   
 def get_poll(tic):
