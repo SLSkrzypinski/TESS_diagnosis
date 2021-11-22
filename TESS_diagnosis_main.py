@@ -35,10 +35,10 @@ for i in range(len(TIC_list)):
     else:
         func.summary_pdf(tic,TESS_sector,best_period,period_error,fap)
    
-    os.remove('TIC_{0}_S_{1}_lc.png'.format(tic,TESS_sector))
-    os.remove('TIC_{0}_S_{1}_periodogram.png'.format(tic,TESS_sector))
-    os.remove('TIC_{0}_S_{1}_lcfolded.png'.format(tic,TESS_sector))
-    os.remove('TIC_{0}_S_{1}_tpf.png'.format(tic,TESS_sector))
+    #os.remove('TIC_{0}_S_{1}_lc.png'.format(tic,TESS_sector))
+    #os.remove('TIC_{0}_S_{1}_periodogram.png'.format(tic,TESS_sector))
+    #os.remove('TIC_{0}_S_{1}_lcfolded.png'.format(tic,TESS_sector))
+    #os.remove('TIC_{0}_S_{1}_tpf.png'.format(tic,TESS_sector))
              
              
 period_data.to_csv('Period_data_file.csv')
