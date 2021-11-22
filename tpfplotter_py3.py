@@ -205,44 +205,29 @@ def get_coord(tic):
 # 	        MAIN
 # ======================================
 
-if __name__ == "__main__":
-    args = cli()
-    if args.LIST:
-    	if args.COORD is not False:
-    		_tics = np.genfromtxt(args.tic,dtype=None)
-    		tics, ras, decs = [], [], []
-    		for t in _tics:
-    			tics.append(str(t[0]))
-    			ras.append(str(t[1]))
-    			decs.append(str(t[2]))
-    		ras, decs = np.array(ras), np.array(decs)
-    	else:
-    		_tics = np.genfromtxt(args.tic,dtype=None)
-    		tics = []
-    		for t in _tics: tics.append(str(t))
+def tpfplotter(tic,LIST=False,COORD=False,SAVEGAIA=False,name=False,maglim=5,sector=None,gid=None,gmag=None,legend='best'):
+    # tic: str
+    # sector: str
+    data = None
+    if COORD:
+        coords = COORD
+        ras, decs = np.array([coords.split(',')[0]]), np.array([coords.split(',')[1]])
+        tics = np.array([tic])
     else:
-    	if args.COORD:
-    		coords = args.COORD
-    		ras, decs = np.array([coords.split(',')[0]]), np.array([coords.split(',')[1]])
-    		tics = np.array([args.tic])
-    	else:
-    		tics = np.array([args.tic])
-
-
+        tics = np.array([tic])
     for tt,tic in enumerate(tics):
-
-        if args.COORD  is not False:
-        	ra,dec = ras[tt], decs[tt]
-        	print('Working on '+tic+' (ra = '+ra+', '+'dec = '+dec+') ...')
+        if COORD is not False:
+            ra,dec = ras[tt], decs[tt]
+            print('Working on '+tic+' (ra = '+ra+', '+'dec = '+dec+') ...')
         else:
-        	ra,dec = get_coord(tic)
-        	print('Working on TIC'+tic+' (ra = '+str(ra)+', '+'dec = '+str(dec)+') ...')
+            ra,dec = get_coord(tic)
+            print('Working on TIC'+tic+' (ra = '+str(ra)+', '+'dec = '+str(dec)+') ...')
 
-        if args.gid != None:
-        	gaia_id, mag = args.gid, float(args.gmag)
+        if gid != None:
+            gaia_id, mag = gid, float(gmag)
         else:
-            if args.COORD  is not False:
-        	       gaia_id, mag = get_gaia_data(ra, dec)
+            if COORD  is not False:
+                gaia_id, mag = get_gaia_data(ra, dec)
             else:
                 gaia_id, mag = get_gaia_data_from_tic(tic)
                 if np.isnan(mag):
@@ -250,39 +235,39 @@ if __name__ == "__main__":
 
 
         # By coordinates -----------------------------------------------------------------
-        if args.COORD  is not False:
-        	                                                                             #
-        	if args.sector != None:
-        		tpf = search_tesscut(ra+" "+dec, sector=int(args.sector)).download(cutout_size=(12,12))     #
+        if COORD  is not False:
+	                                                                           
+            if sector != None:
+                tpf = search_tesscut(ra+" "+dec, sector=int(sector)).download(cutout_size=(12,12))     #
 
-        	else:
-        		tpf = search_tesscut(ra+" "+dec).download(cutout_size=(12,12))                             #
-        	pipeline = "False"
-        	print('    --> Using TESScut to get the TPF')
-
-        # By TIC name --------------------------------------------------------------------
+            else:
+                tpf = search_tesscut(ra+" "+dec).download(cutout_size=(12,12))                             #
+            pipeline = "False"
+            print('    --> Using TESScut to get the TPF')
+            # HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+            # By TIC name --------------------------------------------------------------------
         else:
-        	# If the target is in the CTL (short-cadance targets)...
-        	try:
-        		if args.sector != None:
-        			tpf = search_targetpixelfile("TIC "+tic, sector=int(args.sector), mission='TESS').download()
-        			a = tpf.flux        # To check it has the flux array
-        			pipeline = "True"
-        		else:
-        			tpf = search_targetpixelfile("TIC "+tic, mission='TESS').download()
-        			a = tpf.flux        # To check it has the flux array
-        			pipeline = "True"
+            # If the target is in the CTL (short-cadance targets)...
+            try:
+                if sector != None:
+                    tpf = search_targetpixelfile("TIC "+tic, sector=int(sector), mission='TESS').download()
+                    a = tpf.flux        # To check it has the flux array
+                    pipeline = "True"
+                else:
+                    tpf = search_targetpixelfile("TIC "+tic, mission='TESS').download()
+                    a = tpf.flux        # To check it has the flux array
+                    pipeline = "True"
 
-        		print("    --> Target found in the CTL!")
+                print("    --> Target found in the CTL!")
 
-        	# ... otherwise if it still has a TIC number:
-        	except:
-        		if args.sector != None:
-        			tpf = search_tesscut("TIC "+tic, sector=int(args.sector)).download(cutout_size=(12,12))
-        		else:
-        			tpf = search_tesscut("TIC "+tic).download(cutout_size=(12,12))
-        		print("    -->  Target not in CTL. The FFI cut out was succesfully downloaded")
-        		pipeline = "False"
+            # ... otherwise if it still has a TIC number:
+            except:
+                if sector != None:
+                    tpf = search_tesscut("TIC "+tic, sector=int(sector)).download(cutout_size=(12,12))
+                else:
+                    tpf = search_tesscut("TIC "+tic).download(cutout_size=(12,12))
+                print("    -->  Target not in CTL. The FFI cut out was succesfully downloaded")
+                pipeline = "False"
 
         fig = plt.figure(figsize=(6.93, 5.5))
         gs = gridspec.GridSpec(1,3, height_ratios=[1], width_ratios=[1,0.05,0.01])
@@ -296,31 +281,31 @@ if __name__ == "__main__":
         division = int(np.log10(np.nanmax(np.nanmean(tpf.flux * u.s/u.electron,axis=0))))
         image = np.nanmean(tpf.flux,axis=0)/10**division
         splot = plt.imshow(image,norm=norm, \
-        				extent=[tpf.column,tpf.column+ny,tpf.row,tpf.row+nx],origin='lower', zorder=0)
+				extent=[tpf.column,tpf.column+ny,tpf.row,tpf.row+nx],origin='lower', zorder=0)
 
         # Pipeline aperture
         if pipeline == "True":                                           #
-        	aperture_mask = tpf.pipeline_mask
-        	aperture = tpf._parse_aperture_mask(aperture_mask)
-        	maskcolor = 'tomato'
-        	print("    --> Using pipeline aperture...")
+            aperture_mask = tpf.pipeline_mask
+            aperture = tpf._parse_aperture_mask(aperture_mask)
+            maskcolor = 'tomato'
+            print("    --> Using pipeline aperture...")
         else:
-        	aperture_mask = tpf.create_threshold_mask(threshold=10,reference_pixel='center')
-        	aperture = tpf._parse_aperture_mask(aperture_mask)
-        	maskcolor = 'lightgray'
-        	print("    --> Using threshold aperture...")
+            aperture_mask = tpf.create_threshold_mask(threshold=10,reference_pixel='center')
+            aperture = tpf._parse_aperture_mask(aperture_mask)
+            maskcolor = 'lightgray'
+            print("    --> Using threshold aperture...")
 
 
         for i in range(aperture.shape[0]):
-        	for j in range(aperture.shape[1]):
-        		if aperture_mask[i, j]:
-        			ax1.add_patch(patches.Rectangle((j+tpf.column, i+tpf.row),
-        										   1, 1, color=maskcolor, fill=True,alpha=0.4))
-        			ax1.add_patch(patches.Rectangle((j+tpf.column, i+tpf.row),
-        										   1, 1, color=maskcolor, fill=False,alpha=1,lw=2))
+            for j in range(aperture.shape[1]):
+                if aperture_mask[i, j]:
+                    ax1.add_patch(patches.Rectangle((j+tpf.column, i+tpf.row),
+										   1, 1, color=maskcolor, fill=True,alpha=0.4))
+                    ax1.add_patch(patches.Rectangle((j+tpf.column, i+tpf.row),
+										   1, 1, color=maskcolor, fill=False,alpha=1,lw=2))
 
         # Gaia sources
-        r, res = add_gaia_figure_elements(tpf,magnitude_limit=mag+float(args.maglim),targ_mag=mag)
+        r, res = add_gaia_figure_elements(tpf,magnitude_limit=mag+float(maglim),targ_mag=mag)
         x,y,gaiamags = r
         x, y, gaiamags=np.array(x)+0.5, np.array(y)+0.5, np.array(gaiamags)
         size = 128.0 / 2**((gaiamags-mag))
@@ -332,23 +317,23 @@ if __name__ == "__main__":
 
         # Legend
         add = 0
-        if int(args.maglim) % 2 != 0:
+        if int(maglim) % 2 != 0:
             add = 1
-        maxmag = int(args.maglim) + add
+        maxmag = int(maglim) + add
         legend_mags = np.linspace(-2,maxmag,int((maxmag+2)/2+1))
         fake_sizes = mag + legend_mags #np.array([mag-2,mag,mag+2,mag+5, mag+8])
         for f in fake_sizes:
             size = 128.0 / 2**((f-mag))
             plt.scatter(0,0,s=size,c='red',alpha=0.6, edgecolor=None,zorder = 10,label = r'$\Delta m=$ '+str(int(f-mag)))
 
-        ax1.legend(fancybox=True, framealpha=0.7, loc=args.legend)
+        ax1.legend(fancybox=True, framealpha=0.7, loc=legend)
 
         # Source labels
         dist = np.sqrt((x-x[this])**2+(y-y[this])**2)
         dsort = np.argsort(dist)
         for d,elem in enumerate(dsort):
-        	if dist[elem] < 6:
-        		plt.text(x[elem]+0.1,y[elem]+0.1,str(d+1),color='white', zorder=100)
+            if dist[elem] < 6:
+                plt.text(x[elem]+0.1,y[elem]+0.1,str(d+1),color='white', zorder=100)
 
         # Orientation arrows
         plot_orientation(tpf)
@@ -359,12 +344,12 @@ if __name__ == "__main__":
         plt.ylim(tpf.row,tpf.row+nx)
         plt.xlabel('Pixel Column Number', fontsize=16, zorder=200)
         plt.ylabel('Pixel Row Number', fontsize=16, zorder=200)
-        if args.COORD is not False:                                                                                          #
-        	plt.title('Coordinates '+tic+' - Sector '+str(tpf.sector), fontsize=16, zorder=200)# + ' - Camera '+str(tpf.camera))  #
-        elif args.name is not False:
-            plt.title(args.name +' - Sector '+str(tpf.sector), fontsize=16, zorder=200)
+        if COORD is not False:                                                                                          #
+            plt.title('Coordinates '+tic+' - Sector '+str(tpf.sector), fontsize=16, zorder=200)# + ' - Camera '+str(tpf.camera))  #
+        elif name is not False:
+            plt.title(name +' - Sector '+str(tpf.sector), fontsize=16, zorder=200)
         else:   												#
-        	plt.title('TIC '+tic+' - Sector '+str(tpf.sector), fontsize=16, zorder=200)# + ' - Camera '+str(tpf.camera))
+            plt.title('TIC '+tic+' - Sector '+str(tpf.sector), fontsize=16, zorder=200)# + ' - Camera '+str(tpf.camera))
 
         # Colorbar
         cbax = plt.subplot(gs[0,1]) # Place it where it should be.
@@ -381,28 +366,234 @@ if __name__ == "__main__":
         exponent = r'$\times 10^'+str(division)+'$'
         cb.set_label(r'Flux '+exponent+r' (e$^-$)', labelpad=10, fontsize=16)
 
-        plt.savefig('TIC_'+tic+'_S_'+str(tpf.sector)+'_tpf.png')
-
+        #plt.savefig('TIC_'+tic+'_S_'+str(tpf.sector)+'_tpf.png')
+        fig.tight_layout()
+        fig.set_facecolor('#2B475D')
+        fig.set_dpi(75)
+        plt.close()
         # Save Gaia sources info
-        if args.SAVEGAIA:
-        	dist = np.sqrt((x-x[this])**2+(y-y[this])**2)
-        	GaiaID = np.array(res['Source'])
-        	srt = np.argsort(dist)
-        	x, y, gaiamags, dist, GaiaID = x[srt], y[srt], gaiamags[srt], dist[srt], GaiaID[srt]
+        if SAVEGAIA:
+            dist = np.sqrt((x-x[this])**2+(y-y[this])**2)
+            GaiaID = np.array(res['Source'])
+            srt = np.argsort(dist)
+            x, y, gaiamags, dist, GaiaID = x[srt], y[srt], gaiamags[srt], dist[srt], GaiaID[srt]
 
-        	IDs = np.arange(len(x))+1
-        	inside = np.zeros(len(x))
+            IDs = np.arange(len(x))+1
+            inside = np.zeros(len(x))
 
-        	for i in range(aperture.shape[0]):
-        		for j in range(aperture.shape[1]):
-        			if aperture_mask[i, j]:
-        				xtpf, ytpf = j+tpf.column, i+tpf.row
-        				_inside = np.where((x > xtpf) & (x < xtpf+1) &
-        						 		   (y > ytpf) & (y < ytpf+1))[0]
-        				inside[_inside] = 1
+            for i in range(aperture.shape[0]):
+                for j in range(aperture.shape[1]):
+                    if aperture_mask[i, j]:
+                        xtpf, ytpf = j+tpf.column, i+tpf.row
+                        _inside = np.where((x > xtpf) & (x < xtpf+1) &
+                                           (y > ytpf) & (y < ytpf+1))[0]
+                        inside[_inside] = 1
 
 
 
-        	data = Table([IDs, GaiaID, x, y, dist, dist*21., gaiamags, inside.astype('int')],
-        				names=['# ID','GaiaID','x', 'y','Dist_pix','Dist_arcsec','Gmag', 'InAper'])
-        	ascii.write(data, 'Gaia_TIC'+tic+'_S'+str(tpf.sector)+'.dat',overwrite=True)
+            data = Table([IDs, GaiaID, x, y, dist, dist*21., gaiamags, inside.astype('int')],
+                         names=['# ID','GaiaID','x', 'y','Dist_pix','Dist_arcsec','Gmag', 'InAper'])
+            ascii.write(data, 'Gaia_TIC'+tic+'_S'+str(tpf.sector)+'.dat',overwrite=True)
+    return fig,data
+
+# if __name__ == "__main__":
+#     args = cli()
+#     if args.LIST:
+#     	if args.COORD is not False:
+#     		_tics = np.genfromtxt(args.tic,dtype=None)
+#     		tics, ras, decs = [], [], []
+#     		for t in _tics:
+#     			tics.append(str(t[0]))
+#     			ras.append(str(t[1]))
+#     			decs.append(str(t[2]))
+#     		ras, decs = np.array(ras), np.array(decs)
+#     	else:
+#     		_tics = np.genfromtxt(args.tic,dtype=None)
+#     		tics = []
+#     		for t in _tics: tics.append(str(t))
+#     else:
+#     	if args.COORD:
+#     		coords = args.COORD
+#     		ras, decs = np.array([coords.split(',')[0]]), np.array([coords.split(',')[1]])
+#     		tics = np.array([args.tic])
+#     	else:
+#     		tics = np.array([args.tic])
+
+
+#     for tt,tic in enumerate(tics):
+
+#         if args.COORD  is not False:
+#         	ra,dec = ras[tt], decs[tt]
+#         	print('Working on '+tic+' (ra = '+ra+', '+'dec = '+dec+') ...')
+#         else:
+#         	ra,dec = get_coord(tic)
+#         	print('Working on TIC'+tic+' (ra = '+str(ra)+', '+'dec = '+str(dec)+') ...')
+
+#         if args.gid != None:
+#         	gaia_id, mag = args.gid, float(args.gmag)
+#         else:
+#             if args.COORD  is not False:
+#         	       gaia_id, mag = get_gaia_data(ra, dec)
+#             else:
+#                 gaia_id, mag = get_gaia_data_from_tic(tic)
+#                 if np.isnan(mag):
+#                     gaia_id, mag = get_gaia_data(ra, dec)
+
+
+#         # By coordinates -----------------------------------------------------------------
+#         if args.COORD  is not False:
+#         	                                                                             #
+#         	if args.sector != None:
+#         		tpf = search_tesscut(ra+" "+dec, sector=int(args.sector)).download(cutout_size=(12,12))     #
+
+#         	else:
+#         		tpf = search_tesscut(ra+" "+dec).download(cutout_size=(12,12))                             #
+#         	pipeline = "False"
+#         	print('    --> Using TESScut to get the TPF')
+
+#         # By TIC name --------------------------------------------------------------------
+#         else:
+#         	# If the target is in the CTL (short-cadance targets)...
+#         	try:
+#         		if args.sector != None:
+#         			tpf = search_targetpixelfile("TIC "+tic, sector=int(args.sector), mission='TESS').download()
+#         			a = tpf.flux        # To check it has the flux array
+#         			pipeline = "True"
+#         		else:
+#         			tpf = search_targetpixelfile("TIC "+tic, mission='TESS').download()
+#         			a = tpf.flux        # To check it has the flux array
+#         			pipeline = "True"
+
+#         		print("    --> Target found in the CTL!")
+
+#         	# ... otherwise if it still has a TIC number:
+#         	except:
+#         		if args.sector != None:
+#         			tpf = search_tesscut("TIC "+tic, sector=int(args.sector)).download(cutout_size=(12,12))
+#         		else:
+#         			tpf = search_tesscut("TIC "+tic).download(cutout_size=(12,12))
+#         		print("    -->  Target not in CTL. The FFI cut out was succesfully downloaded")
+#         		pipeline = "False"
+
+#         fig = plt.figure(figsize=(6.93, 5.5))
+#         gs = gridspec.GridSpec(1,3, height_ratios=[1], width_ratios=[1,0.05,0.01])
+#         gs.update(left=0.05, right=0.95, bottom=0.12, top=0.95, wspace=0.01, hspace=0.03)
+#         ax1 = plt.subplot(gs[0,0])
+
+#         # TPF plot
+#         mean_tpf = np.mean(tpf.flux,axis=0)
+#         nx,ny = np.shape(mean_tpf)
+#         norm = ImageNormalize(stretch=stretching.LogStretch())
+#         division = int(np.log10(np.nanmax(np.nanmean(tpf.flux * u.s/u.electron,axis=0))))
+#         image = np.nanmean(tpf.flux,axis=0)/10**division
+#         splot = plt.imshow(image,norm=norm, \
+#         				extent=[tpf.column,tpf.column+ny,tpf.row,tpf.row+nx],origin='lower', zorder=0)
+
+#         # Pipeline aperture
+#         if pipeline == "True":                                           #
+#         	aperture_mask = tpf.pipeline_mask
+#         	aperture = tpf._parse_aperture_mask(aperture_mask)
+#         	maskcolor = 'tomato'
+#         	print("    --> Using pipeline aperture...")
+#         else:
+#         	aperture_mask = tpf.create_threshold_mask(threshold=10,reference_pixel='center')
+#         	aperture = tpf._parse_aperture_mask(aperture_mask)
+#         	maskcolor = 'lightgray'
+#         	print("    --> Using threshold aperture...")
+
+
+#         for i in range(aperture.shape[0]):
+#         	for j in range(aperture.shape[1]):
+#         		if aperture_mask[i, j]:
+#         			ax1.add_patch(patches.Rectangle((j+tpf.column, i+tpf.row),
+#         										   1, 1, color=maskcolor, fill=True,alpha=0.4))
+#         			ax1.add_patch(patches.Rectangle((j+tpf.column, i+tpf.row),
+#         										   1, 1, color=maskcolor, fill=False,alpha=1,lw=2))
+
+#         # Gaia sources
+#         r, res = add_gaia_figure_elements(tpf,magnitude_limit=mag+float(args.maglim),targ_mag=mag)
+#         x,y,gaiamags = r
+#         x, y, gaiamags=np.array(x)+0.5, np.array(y)+0.5, np.array(gaiamags)
+#         size = 128.0 / 2**((gaiamags-mag))
+#         plt.scatter(x,y,s=size,c='red',alpha=0.6, edgecolor=None,zorder = 10)
+
+#         # Gaia source for the target
+#         this = np.where(np.array(res['Source']) == int(gaia_id))[0]
+#         plt.scatter(x[this],y[this],marker='x',c='white',s=32,zorder = 11)
+
+#         # Legend
+#         add = 0
+#         if int(args.maglim) % 2 != 0:
+#             add = 1
+#         maxmag = int(args.maglim) + add
+#         legend_mags = np.linspace(-2,maxmag,int((maxmag+2)/2+1))
+#         fake_sizes = mag + legend_mags #np.array([mag-2,mag,mag+2,mag+5, mag+8])
+#         for f in fake_sizes:
+#             size = 128.0 / 2**((f-mag))
+#             plt.scatter(0,0,s=size,c='red',alpha=0.6, edgecolor=None,zorder = 10,label = r'$\Delta m=$ '+str(int(f-mag)))
+
+#         ax1.legend(fancybox=True, framealpha=0.7, loc=args.legend)
+
+#         # Source labels
+#         dist = np.sqrt((x-x[this])**2+(y-y[this])**2)
+#         dsort = np.argsort(dist)
+#         for d,elem in enumerate(dsort):
+#         	if dist[elem] < 6:
+#         		plt.text(x[elem]+0.1,y[elem]+0.1,str(d+1),color='white', zorder=100)
+
+#         # Orientation arrows
+#         plot_orientation(tpf)
+
+#         # Labels and titles
+#         # Reverse x limits so that image plots as seen on the sky:
+#         plt.xlim(tpf.column+ny,tpf.column)
+#         plt.ylim(tpf.row,tpf.row+nx)
+#         plt.xlabel('Pixel Column Number', fontsize=16, zorder=200)
+#         plt.ylabel('Pixel Row Number', fontsize=16, zorder=200)
+#         if args.COORD is not False:                                                                                          #
+#         	plt.title('Coordinates '+tic+' - Sector '+str(tpf.sector), fontsize=16, zorder=200)# + ' - Camera '+str(tpf.camera))  #
+#         elif args.name is not False:
+#             plt.title(args.name +' - Sector '+str(tpf.sector), fontsize=16, zorder=200)
+#         else:   												#
+#         	plt.title('TIC '+tic+' - Sector '+str(tpf.sector), fontsize=16, zorder=200)# + ' - Camera '+str(tpf.camera))
+
+#         # Colorbar
+#         cbax = plt.subplot(gs[0,1]) # Place it where it should be.
+#         pos1 = cbax.get_position() # get the original position
+#         pos2 = [pos1.x0 - 0.05, pos1.y0 ,  pos1.width, pos1.height]
+#         cbax.set_position(pos2) # set a new position
+
+#         cbar_ticks = np.linspace(np.min(image), np.max(image), 8, endpoint=True)
+
+#         cb = Colorbar(ax = cbax, mappable = splot, orientation = 'vertical',
+#                       ticklocation = 'right')
+#         plt.xticks(fontsize=14)
+#         #cbax.set_yticklabels(["{:4.2f}".format(i) for i in cbar_ticks])
+#         exponent = r'$\times 10^'+str(division)+'$'
+#         cb.set_label(r'Flux '+exponent+r' (e$^-$)', labelpad=10, fontsize=16)
+
+#         plt.savefig('TIC_'+tic+'_S_'+str(tpf.sector)+'_tpf.png')
+
+#         # Save Gaia sources info
+#         if args.SAVEGAIA:
+#         	dist = np.sqrt((x-x[this])**2+(y-y[this])**2)
+#         	GaiaID = np.array(res['Source'])
+#         	srt = np.argsort(dist)
+#         	x, y, gaiamags, dist, GaiaID = x[srt], y[srt], gaiamags[srt], dist[srt], GaiaID[srt]
+
+#         	IDs = np.arange(len(x))+1
+#         	inside = np.zeros(len(x))
+
+#         	for i in range(aperture.shape[0]):
+#         		for j in range(aperture.shape[1]):
+#         			if aperture_mask[i, j]:
+#         				xtpf, ytpf = j+tpf.column, i+tpf.row
+#         				_inside = np.where((x > xtpf) & (x < xtpf+1) &
+#         						 		   (y > ytpf) & (y < ytpf+1))[0]
+#         				inside[_inside] = 1
+
+
+
+#         	data = Table([IDs, GaiaID, x, y, dist, dist*21., gaiamags, inside.astype('int')],
+#         				names=['# ID','GaiaID','x', 'y','Dist_pix','Dist_arcsec','Gmag', 'InAper'])
+#         	ascii.write(data, 'Gaia_TIC'+tic+'_S'+str(tpf.sector)+'.dat',overwrite=True)
