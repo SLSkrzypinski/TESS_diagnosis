@@ -63,8 +63,6 @@ An option will be added so the user would be able to input a TIC and sector list
 
 We will add an option to download and combine multiple sector light curves for the same star. This way, the user would be able to find periods greater than 13.5 days. 
 
-## Known issues
 
-- For some reason, tpfplotter_py3.py does not work correctly with python 3.8. 
 
 
