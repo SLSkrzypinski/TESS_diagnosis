@@ -32,6 +32,7 @@ The phase folded light curve plot is limited to points that deviate less than 10
 - **numpy**
 - **matplotlib**
 - **pandas**
+- **FPDF**
 
 Additionally, the GLS periodogram must be installed following the instructions given by its author: https://github.com/mzechmeister/GLS/tree/master/python.  
 
