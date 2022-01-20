@@ -23,7 +23,10 @@ for i in range(len(TIC_list)):
     TESS_sector = int(TESS_sector_list[i])
     print('Working on TIC {0}, sector {1}'.format(tic,TESS_sector))
     # Get light curve
-    lc = func.get_lc(tic,TESS_sector)
+    if args.SAP:
+        lc = func.get_lc(tic,TESS_sector,SAP=True)
+    else:
+        lc = func.get_lc(tic,TESS_sector,SAP=False)
     # Get periodogram
     periodogram, Pbeg, Pend = func.get_periodogram(lc)
     p_fig, best_period, period_error, fap = func.plot_periodogram(periodogram,
