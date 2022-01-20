@@ -94,8 +94,15 @@ where *TIC* and *sector* are the *TESS* Input Catalog ID of the star and *sec* t
 As an example, FF And has the TIC number 26780244, which is in the 17th TESS sector. To generate the diagnosis pdf, we simply use the command line:
 
 ```
-python TESS_diagnosis_main.py 267802440 17
+python TESS_diagnosis.py 267802440 17
 ```
+
+If you want to use the SAP flux instead of the PDCSAP, then add ```--SAP``` to the comand line:
+
+```
+python TESS_diagnosis 267802440 17 --SAP
+```
+
 The output pdf looks like this: 
 
 ![alt text](https://github.com/SLSkrzypinski/TESS_diagnosis/blob/master/ExampleTIC267802440/TIC_267802440_S_17_summary.png)
