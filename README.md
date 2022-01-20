@@ -89,7 +89,7 @@ If you just want to get the PDF repor, you can do it by typing:
 ```
 python3 TESSdiagnosis.py {TIC} {sec}
 ```
-where *TIC* and *sector* are the *TESS* Input Catalog ID of the star and *sec* the sector in which it was observed. 
+where *TIC* and *sector* are the *TESS* Input Catalog ID of the star and *sec* the sector in which it was observed. The GLS will be performed on the PDCSAP light curve by default.
 
 As an example, FF And has the TIC number 26780244, which is in the 17th TESS sector. To generate the diagnosis pdf, we simply use the command line:
 
