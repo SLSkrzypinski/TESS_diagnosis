@@ -61,10 +61,13 @@ def set_plotcolors(fig,ax,bg_color='#323431',axis_color='#FFFFFF'):
     ax.tick_params(colors=axis_color,which='both')
     return fig,ax
 
-def get_lc(tic,TESS_sector):
+def get_lc(tic,TESS_sector,SAP=False):
     print('Downloading and plotting light curve')
     lc_file = lk.search_lightcurvefile('TIC {0}'.format(tic),mission = 'TESS',sector = TESS_sector).download()
-    lc = lc_file.PDCSAP_FLUX.remove_nans()
+    if SAP:
+        lc = lc_file.SAP_FLUX.remove_nans()
+    else:
+        lc = lc_file.PDCSAP_FLUX.remove_nans()
     flux = lc.flux.value
     time = lc.time.value
     w, h = figaspect(1/2)
