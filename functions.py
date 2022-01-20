@@ -13,6 +13,8 @@ def get_arguments():
     parser.add_argument('tic',help='TIC number',action='store',type=str)
     parser.add_argument('sector',help='TESS source sector',action='store',type=str) 
     parser.add_argument('--FGratio',help='Save Gaia sources and get main source Gflux fraction', action='store')
+    parser.add_argument('--SAP',help='Use the SAP light curve instead of the PDCSAP',action='store_true',dest='SAP')
+    parser.set_defaults(SAP=False)
 
     args = parser.parse_args()
     return args
