@@ -253,7 +253,6 @@ while True:
             values['-GID-'] = ''
             values['-MLIM-'] = ''
             values['-GMAG-'] = ''
-            print(values)
         try:
             TIC = values['-TICID-']
             sec = values['-SECTOR-']
