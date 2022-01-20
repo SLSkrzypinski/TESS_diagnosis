@@ -93,7 +93,7 @@ python TESS_diagnosis_main.py 267802440 17
 ```
 The output pdf looks like this: 
 
-![alt text](https://github.com/SLSkrzypinski/TESS_diagnosis/blob/master/TIC_267802440_S_17_summary.png)
+![alt text](https://github.com/SLSkrzypinski/TESS_diagnosis/blob/master/EampleTIC267802440/TIC_267802440_S_17_summary.png)
 
 Additionally, a csv file is created specifying the period, its error and its FAP. 
 
