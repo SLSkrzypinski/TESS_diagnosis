@@ -60,7 +60,7 @@ Once you specified the TIC number and sector, click on "Dowload LC" to download 
 For the periodogram, you can change different parameters:
 - Pbeg and Pend: the smallest and largest periods for the periodogram. The default values are calculated as twice the sampling rate and half of the total baseline.
 - The standard deviation threshold used to remove outliers. The default value is 5.  
-- The number of secondary peaks that will be marked. Secondary peaks too close to the main period are ignored. 
+- Np: the number of secondary peaks that will be marked in the plot. Secondary peaks too close to the main period, half of the main period and twice the main period are ignored. 
 
 You can also select to perform the periodogram on the SAP or PDCSAP light curve. 
 
