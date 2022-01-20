@@ -48,9 +48,12 @@ To launch the GUI:
 ```
 python3 TESSdiagnosis_GUI.py
 ```
-![alt text](https://github.com/SLSkrzypinski/TESS_diagnosis/blob/master/ExampleTIC267802440/TESSdiagnosis_GUI.png)
 
 There are four panels: the Target Pixel File, the Light Curve, the Periodogram and the Phase-folded Light Curve. 
+
+An example is shown for FF And:
+
+![alt text](https://github.com/SLSkrzypinski/TESS_diagnosis/blob/master/ExampleTIC267802440/TESSdiagnosis_GUI.png)
 
 Once you specified the TIC number and sector, click on "Dowload LC" to download the light curve and plot it in its corresponding panel. You can check both SAP and PDCSAP light curves. 
 
