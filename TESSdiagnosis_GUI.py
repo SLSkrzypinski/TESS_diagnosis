@@ -173,7 +173,7 @@ while True:
             else:
                 sec = int(sec)
             lc_file = fn.download_lc(TIC,sec)
-            if type(lc_file) == 'NoneType':
+            if lc_file is None:
                 # Warn if no light curve is found
                 warnings.warn('Light curve for TIC {0} sector {1} not found'.format(TIC,sec),Warning)
                 sg.Popup('Light curve for TIC {0} sector {1} not found'.format(TIC,sec), 
