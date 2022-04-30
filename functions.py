@@ -25,7 +25,7 @@ def download_lc(tic,TESS_sector):
         lc_file = lk.search_lightcurvefile('TIC {0}'.format(tic),mission = 'TESS').download()
     else:
         lc_file = lk.search_lightcurvefile('TIC {0}'.format(tic),mission = 'TESS',sector = int(TESS_sector)).download()
-    if type(lc_file) == 'NoneType':
+    if lc_file is None:
         return None
     return lc_file
 
